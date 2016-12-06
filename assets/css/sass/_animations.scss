@@ -1,0 +1,195 @@
+// ANIMATION
+// --------------------------------------------------
+
+// @include animation($name, $duration: 1s, $ease: ease-in) {
+// 	-webkit-animation:	$name $duration $ease;
+// 	-moz-animation:		$name $duration $ease;
+// 	-ms-animation:		$name $duration $ease;
+// 	-o-animation:		$name $duration $ease;
+// 	animation:			$name $duration $ease;
+// }
+
+@import "bs3/bootstrap/_mixins.scss";
+// Fade in
+// -------------------------
+
+@-webkit-keyframes fadeIn {
+	from { opacity: 0;}
+	to   { opacity: 1; }
+}
+@-moz-keyframes fadeIn {
+	from { opacity: 0;}
+	to   { opacity: 1; }
+}
+@-o-keyframes fadeIn {
+	from { opacity: 0;}
+	to   { opacity: 1; }
+}
+@-ms-keyframes fadeIn {
+	from { opacity: 0;}
+	to   { opacity: 1; }
+}
+@keyframes fadeIn {
+	from { opacity: 0;}
+	to   { opacity: 1; }
+}
+
+
+// Zoom down
+// -------------------------
+
+@-webkit-keyframes zoom-down {
+	from { @include transform-origin(top);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+@-moz-keyframes zoom-down {
+	from { @include transform-origin(top);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+@-o-keyframes zoom-down {
+	from { @include transform-origin(top);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+@-ms-keyframes zoom-down {
+	from { @include transform-origin(top);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+@keyframes zoom-down {
+	from { @include transform-origin(top);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+
+
+// Zoom up
+// -------------------------
+
+@-webkit-keyframes zoom-up {
+	from { @include transform-origin(bottom);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+@-moz-keyframes zoom-up {
+	from { @include transform-origin(bottom);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+@-o-keyframes zoom-up {
+	from { @include transform-origin(bottom);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+@-ms-keyframes zoom-up {
+	from { @include transform-origin(bottom);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+@keyframes zoom-up {
+	from { @include transform-origin(bottom);
+		   @include scale(0,0); }
+	to   { @include scale(1,1); }
+}
+
+
+// Slide right
+// -------------------------
+
+@-webkit-keyframes slide-right {
+	from { @include translate(-20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-moz-keyframes slide-right {
+	from { @include translate(-20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-o-keyframes slide-right {
+	from { @include translate(-20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-ms-keyframes slide-right {
+	from { @include translate(-20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@keyframes slide-right {
+	from { @include translate(-20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+
+
+// Slide left
+// -------------------------
+
+@-webkit-keyframes slide-left {
+	from { @include translate(20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-moz-keyframes slide-left {
+	from { @include translate(20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-o-keyframes slide-left {
+	from { @include translate(20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-ms-keyframes slide-left {
+	from { @include translate(20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@keyframes slide-left {
+	from { @include translate(20px, 0); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+
+
+// Slide down
+// -------------------------
+
+@-webkit-keyframes slide-down {
+	from { @include translate(0, -20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-moz-keyframes slide-down {
+	from { @include translate(0, -20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-o-keyframes slide-down {
+	from { @include translate(0, -20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-ms-keyframes slide-down {
+	from { @include translate(0, -20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@keyframes slide-down {
+	from { @include translate(0, -20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+
+
+// Slide up
+// -------------------------
+
+@-webkit-keyframes slide-up {
+	from { @include translate(0, 20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-moz-keyframes slide-up {
+	from { @include translate(0, 20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-o-keyframes slide-up {
+	from { @include translate(0, 20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@-ms-keyframes slide-up {
+	from { @include translate(0, 20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}
+@keyframes slide-up {
+	from { @include translate(0, 20px); opacity: 0; }
+	to   { @include translate(0, 0); opacity: 1; }
+}

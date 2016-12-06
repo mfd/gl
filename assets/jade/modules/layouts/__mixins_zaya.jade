@@ -1,0 +1,106 @@
+mixin zayaStatus(st)
+  case st
+    when 1
+      .divider
+        span.text-formir
+          i.md.md-label
+          |  Формирование
+        .progress.progress-hairline
+          .progress-bar.progress-bar-formir
+           block
+    when 2
+      .divider
+        span.text-inwork
+          i.md.md-label
+          |  В работе
+        .progress.progress-hairline
+          .progress-bar.progress-bar-inwork
+           block
+    when 3
+      .divider
+        span.text-agree
+          i.md.md-label
+          | Согласование
+        .progress.progress-hairline
+          .progress-bar.progress-bar-agree
+           block
+    when 4
+      .divider
+        span.text-lp
+          i.md.md-label
+          |  Лист поставки
+        .progress.progress-hairline
+          .progress-bar.progress-bar-lp
+           block
+    when 5
+      .divider
+        span.text-arch
+          i.md.md-label
+          |  Архив
+        .progress.progress-hairline
+          .progress-bar.progress-bar-arch
+           block
+    default
+      .divider
+        span.text-arch
+          i.md.md-label
+          |  Архив
+        .progress.progress-hairline
+          .progress-bar.progress-bar-arch
+           block
+//-------------
+
+mixin zayaUrl(st)
+  .list-group-item
+    case st
+      when 4
+        a.ajmodal(href='/data/ajax/_modal_zaya_lp.html', data-toggle='modal')
+         block
+      when 3
+        a.ajmodal(href='/data/ajax/_modal_zaya_agree.html', data-toggle='modal')
+         block
+      when 2
+        a.ajmodal(href='/data/ajax/_modal_zaya_inwork.html', data-toggle='modal')
+         block
+      when 1
+        a.ajmodal(href='/data/ajax/_modal_zaya_formir.html', data-toggle='modal')
+         block
+      default
+        a.ajmodal(href='/data/ajax/_modal_zaya.html', data-toggle='modal')
+         block
+//-------------
+
+mixin zayaList(obj)
+  each item in obj
+    +zayaUrl(item['status'])
+      .stick-top-left.small-padding
+        i.fa.fa-square.text-formir
+      h5 #{item['suppl']}
+      h4
+        | #{item['name']}
+      p.hidden-xs.hidden-sm
+        | #{item['desc']}
+      .zdate
+        span Срок окончания приема заявок:
+        |  #{item['date']}
+      .stick-bottom-right.small-padding
+        span.glyphicon.glyphicon-paperclip
+      +zayaStatus(item['status'])
+//----------
+
+mixin reqList(obj)
+  each item in obj
+    +zayaUrl(item['status'])
+      .stick-top-left.small-padding
+        i.fa.fa-square.text-formir
+      h5 #{item['suppl']}
+      h4
+        | #{item['name']}
+      p.hidden-xs.hidden-sm
+        | #{item['desc']}
+      //.zdate
+        span Срок окончания приема заявок:
+        |  #{item['date']}
+      .stick-bottom-right.small-padding
+        span.glyphicon.glyphicon-paperclip
+      //+zayaStatus(item['status'])

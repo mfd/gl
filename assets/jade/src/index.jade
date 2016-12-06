@@ -1,0 +1,64 @@
+extends ../modules/layouts/_gl.jade
+
+block head
+  - var pageTitle = 'Главная';
+  - var pageUrl = pageName + '.html';
+body
+  block page
+    #wrapper.container-fluid
+      .container
+        header
+          #heading
+            h1.site-title.pull-left
+              a.logo.custom-logo(href='/')
+                img(alt='', width='155', height='50', src='imgs/logo2x.png')
+                span.site-name Информационный портал "ЭРА-ГЛОНАСС"
+            h2.page-title
+              span Главная
+            .logreg.pull-right
+              a.btn.btn-default.btn-lg Вход в систему
+      include ../modules/parts/_menubar
+      // Page Content
+      .container
+        // Jumbotron Slider
+        .jumbotron.slider
+          h1 ЭРА Глонасс
+          p
+            | Работает во всех регионах Российской Федерации.
+            br
+            |  Оператор государственной автоматизированной системы "ЭРА-ГЛОНАСС"
+          p
+            a.btn Узнать подробнее
+        // News
+        section.news
+          .row
+            .col-lg-12
+              h2 Новости
+          // /.row
+          .row
+            .col-md-4
+              .panel.panel-default
+                .panel-body
+                  p
+                    | АО "ГЛОНАСС" готово обеспечить контроль качества перевозок скоропортящихся продуктов, в том числе при международных перевозках. печить контроль качества перевозок скоропортящихся продуктов, в том числе при международных перевозках.
+                  a.btn(href='#') Читать дальше
+            .col-md-4
+              .panel.panel-default
+                .panel-body
+                  p
+                    | АО "ГЛОНАСС" готово обеспечить контроль качества перевозок скоропортящихся продуктов, в том числе при международных перевозках.
+                  a.btn(href='#') Читать дальше
+            .col-md-4
+              .panel.panel-default
+                .panel-body
+                  p
+                    | Испытания прошли в Кемерове с 1 по 9 октября, а с 10 октября введен в опытную эксплуатацию сегмент системы 112 на территории
+                  a.btn(href='#') Читать дальше
+          // /.row
+        hr
+        // Footer
+        footer
+          .row
+            .col-lg-12
+              p Copyright © Эра Глонасс 2016
+      // /.container
