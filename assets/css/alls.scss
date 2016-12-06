@@ -2,9 +2,10 @@
 @import "sass/bs3/bootstrap";
 @import "fonts/proximanova.scss";
 
+@import "sass/glonass";
 /* glonass theme */
 .aui {
-	@import "sass/glonass";
+
 	.btn {
 		//@extend .btn-primary;
 	}

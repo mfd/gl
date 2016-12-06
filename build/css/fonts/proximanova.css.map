@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,UASC,CARC,WAAW,CAAE,cAAc,CAC3B,GAAG,CAAE,2CAA2C,CAChD,GAAG,CAAE,4PAGoD,CACzD,WAAW,CAAE,MAAM,CACnB,UAAU,CAAE,MAAM,CAGpB,UASC,CARC,WAAW,CAAE,cAAc,CAC3B,GAAG,CAAE,4CAA4C,CACjD,GAAG,CAAE,gQAGqD,CAC1D,WAAW,CAAE,IAAI,CACjB,UAAU,CAAE,MAAM",
-"sources": ["../../../assets/css/fonts/proximanova.scss"],
-"names": [],
-"file": "proximanova.css"
-}

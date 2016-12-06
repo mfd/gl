@@ -1,38 +1,22 @@
-var gulp = require('gulp'), 
-    fs = require('fs');
-    path =  require('path'),
+var gulp = require('gulp'),
     watch = require('gulp-watch'),
+    pkg = require('./package.json'),
+    plugins = {};
+    // gulp-clean-css -> plugins.clean_css
+    Object.keys(require('./package.json')['devDependencies'])
+        .filter(function (pkg) { return pkg.indexOf('gulp-') === 0; })
+        .forEach(function (pkg) {
+            plugins[pkg.replace('gulp-', '').replace(/-/g, '_')] = require(pkg);
+        });
 
-    gutil = require('gulp-util'),
-    data = require('gulp-data'),
-
-    //FS
-    concat = require('gulp-concat'), // объединяет файлы в один бандл
-    uglify = require('gulp-uglify'),
-    notify = require("gulp-notify") ,
-    fileinclude = require('gulp-file-include'), // замена 
-    rimraf = require('rimraf'), //замена rimraf
-    
-    //HTML
-    jade = require('gulp-jade'),
-
-    //CSS
-    compass = require('gulp-compass'),
-    sass = require('gulp-sass'),
-    prefixer = require('gulp-autoprefixer'),
-    cssmin = require('gulp-cssmin'),
-    sourcemaps = require('gulp-sourcemaps'),
-    //minifyCSS = require('gulp-minify-css'), //-> gulp-clean-css
-    cleanCSS = require('gulp-clean-css'),
-
+var gutil = require('gulp-util');
+var fs = require('fs');
+var rimraf = require('rimraf');
+var path =  require('path');
     //webserver
-    browserSync = require("browser-sync"),
+var browserSync = require("browser-sync"),
         reload = browserSync.reload;
-    ngrok = require('ngrok'); //замена localtunnel, inspector => http://127.0.0.1:4040 
-
-    // npm i gutil gulp-concat gulp-uglify gulp-notify gulp-file-include rimraf gulp-jade gulp-compass gulp-sourcemaps gulp-clean-css browser-sync ngrok --save-dev
-    // npm i gulp-notify --save-dev
-    // npm i gulp-data --save-dev
+var ngrok = require('ngrok'); //замена localtunnel, inspector => http://127.0.0.1:4040 
 
 
 var config = {
@@ -44,7 +28,8 @@ var config = {
     host: 'localhost',
     port: 1985,
     directoryListing: true,
-    logPrefix: ''
+    logPrefix: '',
+    production: !!gutil.env.production
 };
 
 var path = {
@@ -77,16 +62,32 @@ var path = {
         },
         revision: new Date().getTime(),
         bowerDir: './bower_components',
-            production: !!gutil.env.production,
         clean: './build'
     };
 
+var comment = '/*\n' +
+    ' * <%= pkg.name %> <%= pkg.version %>\n' +
+    ' * <%= pkg.description %>\n' +
+    //' * <%= pkg.homepage %>\n' +
+    ' * <%= pkg.author %> // '+ new Date(Date.now()).toLocaleString() +'\n' +
+    ' * Released under the <%= pkg.license %> license.\n' +
+    '*/\n\n';
 
+function log(error) {
+    gutil.log([
+        '',
+        gutil.colors.white.bgRed("    ERROR MESSAGE START    ") 
+        + gutil.colors.red("  [" + error.name + " in " + error.plugin + "]"),
+        error.message,
+        gutil.colors.white.bgRed("    ERROR MESSAGE END    "),
+        ''
+    ].join('\n'));
+    this.end();
+}
 
 gulp.task('clean', function (cb) {
     rimraf(path.clean, cb);
 });
-
 
 
 gulp.task('webserver', function () {
@@ -100,6 +101,7 @@ gulp.task('webserver', function () {
       //authtoken: '5CnyBoBGqGPzRbXmqzBWb_5c7athHzpG24uUKANTuFW', // your authtoken from ngrok.com 
       //region: 'us' // one of ngrok regions (us, eu, au, ap), defaults to us 
     }, function (err, url) { 
+      gutil.log(err.msg);
       gutil.log('[ngrok]', ' => ', gutil.colors.magenta(url));
       gutil.log('[ngrok]', ' => ', 'http://'+config.host+':'+config.port);
     });         
@@ -115,19 +117,19 @@ gulp.task('html:build', function() {
     gulp.src([
         path.src.html
     ])
-    .pipe(data(function(file) { return jsonData }))
-    .pipe(data(function(file) {
+    .pipe(plugins.data(function(file) { return jsonData }))
+    .pipe(plugins.data(function(file) {
       return {
         pageName: file.history[0].replace(file.base, '').split('.')[0]
         //relativePath: file.history[0].replace(file.base, '')
       };
     }))
-    .pipe(jade({
+    .pipe(plugins.jade({
         filename: 'base',
         basedir: __dirname + '/',
-        pretty: true
+        pretty: !config.production ? true : false
         }))
-    .on('error', function (err) { console.log(err); })
+    .on('error', log)
     .pipe(gulp.dest(path.build.html))
     .pipe(reload({stream: true}));
 });
@@ -138,55 +140,85 @@ gulp.task('html:build', function() {
 
 gulp.task('compass', function() {
     gulp.src('./assets/css/all.scss')
-        .pipe(compass({
-            config_file: './compass/config.rb',
-            sourcemap:true,
-            //comments: true,
-            logging: true,
-            style: 'compressed',
-            sass: 'assets/css',
-            css: './build/css',
-        }))
-        .on('error', function(err) {
-            console.log(err);
-        })
-        //.pipe(minifyCSS())
-        .pipe(gulp.dest('./build/css/'));
+      .pipe(plugins.compass({
+          config_file: './compass/config.rb',
+          sourcemap:true,
+          //comments: true,
+          logging: true,
+          style: 'compressed',
+          sass: 'assets/css',
+          css: './build/css',
+      }))
+      .on('error', log)        
+      //.pipe(minifyCSS())
+      .pipe(gulp.dest('./build/css/'));
 });
 
 gulp.task('sass:build', function () {
+  if (!config.production){
     gulp.src('./assets/css/**/*.scss') //Выберем наш main.scss
-        .pipe(sourcemaps.init()) //То же самое что и с js
-        .pipe(sass()) //Скомпилируем
-        .pipe(prefixer()) //Добавим вендорные префиксы
-        .pipe(cssmin()) //Сожмем
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest(path.build.css)) //И в build
-        .pipe(reload({stream: true}));
+      .pipe(plugins.sourcemaps.init()) 
+      .pipe(plugins.sass({
+          errLogToConsole: true,
+          sourceComments: 'map',
+          sourceMap: 'sass',
+          outputStyle: 'nested', //expanded
+          precision: 3
+      }).on('error', log)) //Скомпилируем
+      .pipe(plugins.autoprefixer()) //Добавим вендорные префиксы
+      //.pipe(plugins.cssmin()) //Сожмем
+      .pipe(plugins.sourcemaps.write('maps/', {
+          includeContent: true
+          }))
+      .pipe(gulp.dest(path.build.css)) //И в build
+      .pipe(reload({stream: true}));
+  } else {
+    gulp.src('./assets/css/**/*.scss') //Выберем наш main.scss
+      .pipe(plugins.sass().on('error', log)) //Скомпилируем
+      .pipe(plugins.autoprefixer()) //Добавим вендорные префиксы
+      .pipe(plugins.cssmin()) //Сожмем
+      .pipe(gulp.dest(path.build.css)) //И в build
+      .pipe(reload({stream: true}));    
+  }
+
 });
 
 
 gulp.task('style:build', [
     //'less:build',
-    'compass'
-    //'sass:build',
+    //'compass'
+    'sass:build',
 ]);
 
 
 //JS TASK
 gulp.task('js:build', function () {
+  if (!config.production){
     //gulp.src(path.src.js) 
     gulp.src(['assets/js/vendors.js', 'assets/js/mocha.js'])
     //.pipe(rigger()) 
-    .pipe(fileinclude({
+    .pipe(plugins.sourcemaps.init()) 
+    .pipe(plugins.file_include({
             prefix: '@@',
             basepath: '@file'
         }))
-    //.pipe(sourcemaps.init()) 
-    .pipe(uglify()) 
-    //.pipe(sourcemaps.write()) 
+    .pipe(plugins.sourcemaps.write()) 
     .pipe(gulp.dest(path.build.js))
     .pipe(reload({stream: true}));
+  } else {
+    //gulp.src(path.src.js) 
+    gulp.src(['assets/js/vendors.js', 'assets/js/mocha.js'])
+    .pipe(plugins.file_include({
+            prefix: '@@',
+            basepath: '@file'
+        }))
+    .pipe(plugins.uglify())
+    .pipe(plugins.banner(comment, {pkg: pkg}))
+    .pipe(gulp.dest(path.build.js))
+    .pipe(reload({stream: true}));
+
+
+  }
 });
 
 gulp.task('img:build', function () {
@@ -209,6 +241,10 @@ gulp.task('fonts:build', function() {
    .pipe(gulp.dest(path.build.fonts))
 });
 
+gulp.task('deploy', function() {
+  return gulp.src('./build/**/*')
+    .pipe(plugins.gh_pages());
+});
 
 
 
