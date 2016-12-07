@@ -1,0 +1,91 @@
+//- Navbar mixin
+mixin navbarr(selected, menus)
+  each menu in menus
+    -var active = (selected === menu.url) ? 'active':''
+    if typeof menu.child == typeof []
+      li.dropdown(class="#{active}")
+        a(data-toggle="dropdown", role="button", aria-expanded="false", class="dropdown-toggle #{active}", href=menu.url)=menu.name
+          span.caret
+        if menu.child.length > 0
+          ul(role="menu", class="dropdown-menu")
+            each mmm in menu.child
+              //+navbar(selected, menu.child)
+              li
+                a(href=mmm.url)=mmm.name
+
+    else
+      li(class="#{active}")
+        a(href=menu.url)=menu.name
+
+// Navigation
+nav.navbar.navbar-inverse(role='navigation')
+  .container
+    // Brand and toggle get grouped for better mobile display
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      // <a class="navbar-brand" href="#">GL</a>
+    // Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      ul.nav.navbar-nav
+        +navbarr(pageUrl,[
+        {  
+           "name":"Главная",
+           "url":"index.html",
+           "ico":"gsnab gsnab-311715"
+        },
+        {  
+           "name":"Помощь и поддержка",
+           "url":"help.html",
+           "ico":"gsnab gsnab-219001",
+           "child":[  
+              {  
+                 "name":"Помощь и поддержка",
+                 "url":"help.html"
+              },
+              {  
+                 "name":"Another action",
+                 "url":"#23"
+              },
+              {  
+                 "name":"Another action 2",
+                 "url":"#2"
+              }
+           ]
+        },
+        {  
+           "name":"Статистика",
+           "url":"stat.html",
+           "ico":"gsnab gsnab-219001",
+           "child":[  
+              {  
+                 "name":"Помощь и поддержка",
+                 "url":"stat.html"
+              },
+              {  
+                 "name":"Another action",
+                 "url":"#23"
+              },
+              {  
+                 "name":"Another action 2",
+                 "url":"#2"
+              }
+           ]
+        },
+        { 
+           "name":"Новости",
+           "url":"news.html",
+           "ico":"gsnab gsnab-311715"
+        },
+        ])
+      form.navbar-form.pull-right(role='search')
+        .input-group
+          input#srch-term.form-control(type='text', placeholder='Поиск', name='srch-term')
+          .input-group-btn
+            button.btn.btn-default(type='submit')
+              i.glyphicon.glyphicon-search
+    // /.navbar-collapse
+  // /.container

@@ -1,0 +1,10 @@
+include __mixins
+include __mixins-bs
+include __mixins-util
+
+doctype html
+html(lang="ru-RU" class="no-js aui")
+  include ../parts/head_light.jade
+  +scripts(['js/vendors.js'])
+  body(class="page_#{pageName}")
+  block page

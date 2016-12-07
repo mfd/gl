@@ -1,0 +1,48 @@
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Proxima Nova', Arial, Helvetica, sans-serif;
+  text-shadow: 0px 0px 1px #fff;  
+  }
+h1 {
+  font-size: 2.5em;
+}
+h2, h3, h4, h5{
+  font-size: 1.7em;
+  font-weight: normal;
+  }
+h6{
+  font-size: 1.1em;
+  font-weight: bold;
+  }
+
+
+h1{
+  line-height: 1.05em;
+  margin: 0px 0px 17px 0px;
+  .sub {
+    font-size: 0.45em;
+    display: block;
+  }
+}
+h2,
+.h2 {
+  margin: 0px 0px 19px 0px;
+}
+
+h3{
+  margin: 0px 0px 16px 0px;
+}
+
+h4 {
+  margin: 0px 0px 21px 0px;
+}
+
+h5 {
+  margin: 0px 0px 10px 0px;
+  text-shadow: 0px 0px 1px #101010; 
+}
+
+h6 {
+  margin: 0px 0px 12px 0px;
+  text-shadow: 0px 0px 1px #101010;
+  }
