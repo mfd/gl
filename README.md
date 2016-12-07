@@ -1,2 +1,0 @@
-# GL theme
-> npm i
