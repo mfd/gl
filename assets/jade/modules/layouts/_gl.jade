@@ -7,4 +7,5 @@ html(lang="ru-RU" class="no-js aui")
   include ../parts/head_light.jade
   +scripts(['js/vendors.js'])
   body(class="page_#{pageName}")
-  block page
+    block page
+    +scripts(['js/mocha.js'])   

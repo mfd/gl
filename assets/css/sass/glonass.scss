@@ -1,3 +1,5 @@
+//@import "compass";
+
 //colors
 $white: #ffffff;
 $color_bg: #e8e8e8;
@@ -81,167 +83,204 @@ body {
 
 
 body {
-	background: $color_bg url(../imgs/bg.jpg) no-repeat 0 0;
-	background-size: cover;
+  background: $color_bg url(../imgs/bg.jpg) no-repeat 0 0;
+  background-size: cover;
 }
 
 
 header {
-	text-align: left;
-	margin: 30px 0;
-	.heading {
-		margin-bottom: 30px;
-	}
-	a {
-		text-decoration: none;
-		color: $color_link_header;
-		&:hover {
-			text-decoration: none;
-		}
-	}
-	img {
-		margin: 0 1em;
-		margin-bottom: 1em;
-	}
-	.site-title {
-		font-size: 70%;
-		text-transform: uppercase;
-		letter-spacing: .1em;
-	}
-	h2 {
-		display: none;
-	}
-	.btn {
-		font-size: 70%;
-		text-transform: uppercase;
-	}
+  text-align: left;
+  margin: 30px 0;
+  .heading {
+    margin-bottom: 30px;
+  }
+  a {
+    text-decoration: none;
+    color: $color_link_header;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  img {
+    margin: 0 1em;
+    margin-bottom: 1em;
+  }
+  .site-title {
+    font-size: 70%;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+  }
+  h2 {
+    display: none;
+  }
+  .btn {
+    font-size: 70%;
+    text-transform: uppercase;
+  }
 } //header
 
 
 .slider {
-	text-align: left;
-	background-color: $white_50;
-	h1 {
-		color: $glonass_brand-primary;
-		letter-spacing: -.05em;
-	}
-	p {
-		line-height: 1.6;
-	}
-	.btn {
-		@extend .btn-inverse!optional;
-		@extend .btn-md!optional;
-		@extend .btn-primary!optional;
-			@include transition(all .25s linear);
-		// background: transparent;
-		// border-color: $glonass_brand-sub;
-		// color: $glonass_brand-sub;
-		&:hover	{
+  text-align: left;
+  background-color: $white_50;
+  //background: transparent;
+  h1 {
+    color: $glonass_brand-primary;
+    letter-spacing: -.05em;
+  }
+  p {
+    line-height: 1.6;
+  }
+  .btn {
+    //@extend .btn-inverse!optional;
+    //@extend .btn-primary!optional;
+    //@include transition(all .25s linear);
+    // background: transparent;
+    // border-color: $glonass_brand-sub;
+    // color: $glonass_brand-sub;
 
-		}
-	}
+    @extend .btn-lg!optional;
+    font-size: 70%;
+    
+    z-index: 100;
+    position: relative;
+    border:2px solid $glonass_brand-sub3;
+    overflow: hidden;
+    &:after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      opacity: 0;
+      width: 100%;
+      height: 0;
+      top: 50%;
+      left: 50%;
+      background: $glonass_brand-sub3;
+      @include transition(all 0.3s);
+      transition-delay:0;
+      //@include transform(rotate(45deg) translateX(-50%) translateY(-50%));
+      transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+    }
+    &:hover,
+    &:active {
+      color: $white;
+    }
+
+    &:hover:after {
+      height: 400%;
+      opacity: 1;
+    }
+
+    &:active:after {
+      height: 400%;
+      opacity: 1;
+    }
+    &:hover {
+
+    }
+  }
 }
 
 
 .navbar-nav {
-	font-family: $font_Proxima,  $font_site;
-	text-transform: uppercase;
+  font-family: $font_Proxima,  $font_site;
+  text-transform: uppercase;
 }
 
 .navbar-nav {
-	.dropdown-menu {
-		font-size:85%;
-		border-color: rgba(255, 255, 255, 0.9);
-		@include box-shadow(0 1px 3px 0 rgba(0, 0, 0, 0.33));
-		border-radius: 2px;
+  .dropdown-menu {
+    font-size:85%;
+    border-color: rgba(255, 255, 255, 0.9);
+    @include box-shadow(0 1px 3px 0 rgba(0, 0, 0, 0.33));
+    border-radius: 2px;
 
-	}
-	.open > .dropdown-menu{
-		@extend .animation-slide;
-		//border:5px solid red;
-	}
+  }
+  .open > .dropdown-menu{
+    @extend .animation-slide;
+    //border:5px solid red;
+  }
 
 }
 .navbar-inverse {
-	background: $glonass_brand-sub2;
-	border: 0;
-	.navbar-nav {
-			@media (max-width: $screen-sm-max) { 
-				font-size:70%;
-			}
+  background: $glonass_brand-sub2;
+  border: 0;
+  .navbar-nav {
+      @media (max-width: $screen-sm-max) { 
+        font-size:70%;
+      }
 
-		> li > a {
-			color: $white;
-			@include transition(all .15s linear);
+    > li > a {
+      color: $white;
+      @include transition(all .15s linear);
 
-			&:hover {
-				background: $nav_link_hover;
-			}
-		}
-		> .open > a {
-			color: $white;
-			background: $nav_link_hover;
-			&:focus {
-				color: $white;
-				//background: none;
-			}
-			&:hover {
-				color: $white;
-				//background: none;
-			}
-		}
-		> li.open > a:active,
-		> li.active > a {
-			background: $nav_link_active;
-		}
-		
-		.open li > a {
-			@include transition(all .15s linear);
-		}
+      &:hover {
+        background: $nav_link_hover;
+      }
+    }
+    > .open > a {
+      color: $white;
+      background: $nav_link_hover;
+      &:focus {
+        color: $white;
+        //background: none;
+      }
+      &:hover {
+        color: $white;
+        //background: none;
+      }
+    }
+    > li.open > a:active,
+    > li.active > a {
+      background: $nav_link_active;
+    }
+    
+    .open li > a {
+      @include transition(all .15s linear);
+    }
 
 
-	} //.navbar-nav
+  } //.navbar-nav
 
-	.navbar-form {
-		.btn {
-			line-height: 20px;
-		}
-	}
+  .navbar-form {
+    .btn {
+      line-height: 20px;
+    }
+  }
 
 
 }
 
 h3 {
-	color: $glonass_brand-primary;
+  color: $glonass_brand-primary;
 }
 
 .news {
-	.panel {
-		border: 0;
-		background-color: $white_75;
-		min-height: 130px;
-		@include transition(all .25s linear);
-		
-		&:hover {
-			@include box-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
-		}
-	}
-	.panel-body {
-		position: relative;
-		height:120px;
-		overflow:hidden;
-	}
+  .panel {
+    border: 0;
+    background-color: $white_75;
+    min-height: 130px;
+    @include transition(all .25s linear);
+    
+    &:hover {
+      @include box-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
+    }
+  }
+  .panel-body {
+    position: relative;
+    height:120px;
+    overflow:hidden;
+  }
 
-	.btn {
-		@extend .btn-info!optional;
-		@extend .btn-xs!optional;
-		text-transform:uppercase;
-		font-size:60%;
-		bottom:3px;
-		position: absolute;
-		@include transition(all .25s linear);
-		@include box-shadow(5px 20px 30px 30px $white_75);
-	}
+  .btn {
+    @extend .btn-info!optional;
+    @extend .btn-xs!optional;
+    text-transform:uppercase;
+    font-size:60%;
+    bottom:3px;
+    position: absolute;
+    @include transition(all .25s linear);
+    @include box-shadow(5px 20px 30px 30px $white_75);
+  }
 
 }
 
@@ -249,12 +288,12 @@ h3 {
 
 
 footer {
-	margin: 50px 0;
-	p {
-		font-size: 70%;
+  margin: 50px 0;
+  p {
+    font-size: 70%;
     text-transform: uppercase;
     letter-spacing: .1em;
-	}
+  }
 }
 
 } // /.aui

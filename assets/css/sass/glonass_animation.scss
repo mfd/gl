@@ -1,0 +1,45 @@
+// @mixin anim($class, $transform, $delay:0 ) {
+//   #{$class} {
+//     @include opacity(0);
+//     @include transition(all 320ms ease-out);
+//     @include transform(#{$transform});
+//     .loaded & {
+//       @include opacity(1);
+//       @include transform(none);
+//       @include transition-delay(#{$delay});
+//     }
+//   }
+// }
+
+@mixin anim($class, $transform, $delay:0.1s ) {
+  #{$class} {
+    opacity: 0;
+    transition:all 320ms ease-out;
+    transform:#{$transform};
+    .loaded & {
+      opacity:1;
+      transform:none;
+      transition-delay:#{$delay};
+    }
+  }
+}
+@mixin anim-items($class, $transform, $animDelay:0.1s, $n:50) {
+  @include anim($class, $transform );
+  @for $i from 1 through $n {
+    .loaded #{$class}:nth-child(#{$i}) {
+      transition-delay:($animDelay + ($i - 1) * 0.1s);
+    }
+  }
+}
+
+
+//@include transition(all .15s linear);
+
+@include anim('.site-title', 'scale(.9)', 50ms );
+@include anim-items('.navbar-nav li', 'translateX(-16px)', 300ms );
+@include anim('.slider h1', 'translateY(20px)', 540ms );
+@include anim('.slider .lead', 'translateX(-16px)', 600ms );
+@include anim('.slider .click', 'scale(1)', 900ms );
+@include anim-items('.news [class^="col-"]', 'translateX(-16px)', 1000ms );
+
+

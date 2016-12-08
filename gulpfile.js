@@ -101,9 +101,9 @@ gulp.task('webserver', function () {
       //authtoken: '5CnyBoBGqGPzRbXmqzBWb_5c7athHzpG24uUKANTuFW', // your authtoken from ngrok.com 
       //region: 'us' // one of ngrok regions (us, eu, au, ap), defaults to us 
     }, function (err, url) { 
-      gutil.log(err.msg);
-      gutil.log('[ngrok]', ' => ', gutil.colors.magenta(url));
-      gutil.log('[ngrok]', ' => ', 'http://'+config.host+':'+config.port);
+      gutil.log('[ngrok local host]', ' => ', gutil.colors.magenta('http://'+config.host+':'+config.port));
+      gutil.log('[ngrok status]', ' => ', gutil.colors.magenta(err?err:'ok'));
+      gutil.log('[ngrok external host]', ' => ', gutil.colors.magenta(url));
     });         
   });         
 });
@@ -137,13 +137,14 @@ gulp.task('html:build', function() {
 
 //CSS TASK
 //https://github.com/Compass/compass/issues/2052#issuecomment-200599690
+//https://github.com/Compass/compass/issues/2052
 
 gulp.task('compass', function() {
     gulp.src('./assets/css/all.scss')
       .pipe(plugins.compass({
           config_file: './compass/config.rb',
           sourcemap:true,
-          //comments: true,
+          comments: true,
           logging: true,
           style: 'compressed',
           sass: 'assets/css',
@@ -165,8 +166,10 @@ gulp.task('sass:build', function () {
           outputStyle: 'nested', //expanded
           precision: 3
       }).on('error', log)) //Скомпилируем
-      .pipe(plugins.autoprefixer()) //Добавим вендорные префиксы
-      //.pipe(plugins.cssmin()) //Сожмем
+      .pipe(plugins.autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        })) //Добавим вендорные префиксы
       .pipe(plugins.sourcemaps.write('maps/', {
           includeContent: true
           }))
@@ -176,7 +179,7 @@ gulp.task('sass:build', function () {
     gulp.src('./assets/css/**/*.scss') //Выберем наш main.scss
       .pipe(plugins.sass().on('error', log)) //Скомпилируем
       .pipe(plugins.autoprefixer()) //Добавим вендорные префиксы
-      .pipe(plugins.cssmin()) //Сожмем
+      .pipe(plugins.clean_css()) //Сожмем
       .pipe(gulp.dest(path.build.css)) //И в build
       .pipe(reload({stream: true}));    
   }
